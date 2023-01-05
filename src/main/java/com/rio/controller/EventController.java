@@ -61,7 +61,7 @@ public class EventController {
         return mapToEventDTO(saved);
     }
 
-    @PreAuthorize("@permissionsService.hasPermissions(authentication, #id, 'WRITE')")
+    @PreAuthorize("hasPermission(#id, '', 'WRITE')")
     @PatchMapping("/{id}")
     @Transactional
     public EventDTO updateEvent(@PathVariable Long id, @RequestBody CreateUpdateEventDTO createEventDto) {
