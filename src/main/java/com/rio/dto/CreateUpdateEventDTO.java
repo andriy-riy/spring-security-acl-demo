@@ -8,6 +8,6 @@ public record CreateUpdateEventDTO(
         String description,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime,
-        List<Long> participantIds
+        List<Long> userIds
 ) {
 }

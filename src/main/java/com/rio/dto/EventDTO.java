@@ -9,6 +9,6 @@ public record EventDTO(
         String description,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime,
-        List<UserDTO> participants
+        List<UserDTO> users
 ) {
 }

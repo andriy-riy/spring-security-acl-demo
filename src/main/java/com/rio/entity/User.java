@@ -35,9 +35,6 @@ public class User {
     @OneToMany(mappedBy = "creator")
     private List<Event> createdEvents = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Event> participatingEvents = new ArrayList<>();
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Permission> permissions = new ArrayList<>();
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Event> events = new ArrayList<>();
 }

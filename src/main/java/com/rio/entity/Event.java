@@ -33,6 +33,10 @@ public class Event {
     @JoinColumn(nullable = false)
     private User creator;
 
-    @ManyToMany(mappedBy = "participatingEvents")
-    private List<User> participants = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "users_events",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users = new ArrayList<>();
 }

@@ -21,6 +21,7 @@ public class PermissionsService {
     public boolean hasPermissions(Authentication authentication, Long eventId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+
         return user.getCreatedEvents().stream()
                 .map(Event::getId)
                 .anyMatch(id -> Objects.equals(eventId, id));
