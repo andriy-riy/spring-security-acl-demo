@@ -18,8 +18,8 @@ public class Permission implements GrantedAuthority {
     @Column(unique = true, nullable = false)
     private Long id;
     private String value;
-    @ManyToOne
-    private Event event;
+    private String targetDomainObject;
+    private String targetDomainObjectId;
     @ManyToMany(mappedBy = "permissions")
     private List<User> users = new ArrayList<>();
 

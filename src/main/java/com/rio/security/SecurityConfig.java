@@ -1,5 +1,6 @@
 package com.rio.security;
 
+import com.rio.entity.Event;
 import com.rio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -68,6 +71,16 @@ public class SecurityConfig {
 
     @Bean
     public PermissionEvaluator permissionEvaluator() {
-        return new EventPermissionEvaluator();
+        return new PermissionsEvaluatorCompositor(Map.of(
+                Event.class.getSimpleName(), new TargetedPermissionEvaluator() {
+                    @Override
+                    public Object getId(Object targetDomainObject) {
+                        if (targetDomainObject instanceof Event event) {
+                            return event.getId();
+                        }
+                        return null;
+                    }
+                }
+        ));
     }
 }
