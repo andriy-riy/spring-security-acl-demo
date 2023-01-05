@@ -45,9 +45,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeHttpRequests()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new EventsPermissionsFilter(permissionsService, new AntPathRequestMatcher("/api/events/**", HttpMethod.PATCH.name())), AuthorizationFilter.class);
+                .anyRequest().authenticated();
 
         return http.build();
     }

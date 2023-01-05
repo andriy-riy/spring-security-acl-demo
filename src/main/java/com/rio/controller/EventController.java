@@ -8,6 +8,7 @@ import com.rio.entity.User;
 import com.rio.repository.EventRepository;
 import com.rio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,7 @@ public class EventController {
         return mapToEventDTO(saved);
     }
 
+    @PreAuthorize("@permissionsService.hasPermissions(authentication, #id)")
     @PatchMapping("/{id}")
     @Transactional
     public EventDTO updateEvent(@PathVariable Long id, @RequestBody CreateUpdateEventDTO createEventDto) {
