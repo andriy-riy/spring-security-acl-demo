@@ -1,0 +1,39 @@
+### Login rio
+POST http://localhost:8085/login
+Content-Type: application/x-www-form-urlencoded
+
+username=rio@gmail.com&password=rio
+
+### Login milner
+POST http://localhost:8085/login
+Content-Type: application/x-www-form-urlencoded
+
+username=milner@gmail.com&password=milner
+
+### Create new event
+POST http://localhost:8085/api/events
+Content-Type: application/json
+
+{
+  "title": "Jappware party",
+  "description" : "bla bla bla",
+  "startDateTime": "2023-01-28T18:00:00",
+  "endDateTime": "2023-01-28T21:00:00"
+}
+
+### Update existing event
+PATCH http://localhost:8085/api/events/8
+Content-Type: application/json
+
+{
+  "title": "Jappware party",
+  "description": "bla bla bla",
+  "startDateTime": "2023-01-28T18:00:00",
+  "endDateTime": "2023-01-28T21:00:00",
+  "participantIds": [
+    2
+  ]
+}
+
+### Logout
+POST http://localhost:8085/logout
