@@ -28,7 +28,7 @@ Content-Type: application/json
 
 
 ### Update existing event
-PATCH http://localhost:8085/api/events/1
+PATCH http://localhost:8085/api/events/3
 Content-Type: application/json
 
 {

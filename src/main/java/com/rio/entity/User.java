@@ -37,11 +37,4 @@ public class User {
 
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "users_permissions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private List<Permission> permissions = new ArrayList<>();
 }
