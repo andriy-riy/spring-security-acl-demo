@@ -8,6 +8,8 @@ import com.rio.entity.User;
 import com.rio.repository.EventRepository;
 import com.rio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/events")
@@ -31,28 +34,31 @@ public class EventController {
     private final EventRepository eventRepository;
     private final JdbcMutableAclService aclService;
 
-    @GetMapping("/created-by-me")
-    public List<EventDTO> getMyEvents(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails.getUsername();
-        return userRepository.findByEmail(email).stream()
-                .flatMap(user -> user.getCreatedEvents().stream())
+    @Transactional
+    @GetMapping("/{id}")
+    @PostAuthorize("hasPermission(returnObject, 'READ')")
+    public EventDTO getEventById(@PathVariable Long id) {
+        return eventRepository.findById(id)
                 .map(this::mapToEventDTO)
-                .toList();
+                .orElseThrow(() -> new RuntimeException("Event with id: '" + id + "' not found"));
     }
 
+    @Transactional
     @GetMapping("/participating")
+    @PostFilter("hasPermission(filterObject.id(), 'com.rio.entity.Event', 'READ')")
     public List<EventDTO> getParticipatingEvents(@AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
         return userRepository.findByEmail(email).stream()
                 .flatMap(user -> user.getEvents().stream())
                 .map(this::mapToEventDTO)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @PostMapping
     @Transactional
+    @PreAuthorize("hasAuthority('CREATE_EVENT')")
     public EventDTO createEvent(@AuthenticationPrincipal UserDetails userDetails,
-                            @RequestBody CreateUpdateEventDTO createEventDto) {
+                                @RequestBody CreateUpdateEventDTO createEventDto) {
         User creator = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
 
         var event = new Event();
@@ -92,6 +98,12 @@ public class EventController {
         Event saved = eventRepository.save(event);
 
         return mapToEventDTO(saved);
+    }
+
+    @PreAuthorize("hasPermission(#id, 'com.rio.entity.Event', 'DELETE')")
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        eventRepository.deleteById(id);
     }
 
     private EventDTO mapToEventDTO(Event event) {
