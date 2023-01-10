@@ -49,5 +49,21 @@ Content-Type: application/json
 
 
 
+### Add permissions
+POST http://localhost:8085/api/acl
+Content-Type: application/json
+
+{
+  "objectIdentity": {
+    "type": "com.rio.entity.Event",
+    "id": 3
+  },
+  "userId": 2,
+  "permission": 2,
+  "granting": true
+}
+
+
+
 ### Logout
 POST http://localhost:8085/logout

@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserRepository userRepository;
@@ -45,8 +45,8 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.PATCH, "/api/events/{id}")
-                .access(webExpressionAuthorizationManager("hasPermission(new Long(#id), 'com.rio.entity.Event', 'WRITE')"))
+                //.requestMatchers(HttpMethod.PATCH, "/api/events/{id}")
+                //.access(webExpressionAuthorizationManager("hasPermission(new Long(#id), 'com.rio.entity.Event', 'WRITE')"))
                 .anyRequest().authenticated();
 
         return http.build();
