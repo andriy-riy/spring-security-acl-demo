@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PermissionsService {
+public class EventsPermissionsService {
 
     private final UserRepository userRepository;
 
