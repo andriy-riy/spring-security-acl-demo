@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class PermissionsService {
+public class EventPermissionsService {
 
     private final UserRepository userRepository;
 
