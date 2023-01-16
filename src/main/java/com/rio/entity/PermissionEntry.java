@@ -11,20 +11,20 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Permission implements GrantedAuthority {
+public class PermissionEntry implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    private String value;
+    private String permission;
     @ManyToOne
     private Event event;
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissionEntries")
     private List<User> users = new ArrayList<>();
 
     @Override
     public String getAuthority() {
-        return value;
+        return permission;
     }
 }

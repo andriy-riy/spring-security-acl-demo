@@ -1,7 +1,7 @@
 package com.rio.security;
 
 import com.rio.entity.Event;
-import com.rio.entity.Permission;
+import com.rio.entity.PermissionEntry;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +15,8 @@ public class EventPermissionEvaluator implements PermissionEvaluator {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             return userDetails.getAuthorities().stream()
-                    .map(Permission.class::cast)
-                    .anyMatch(p -> p.getValue().equals(permission) && p.getEvent().getId().equals(((Event) targetDomainObject).getId()));
+                    .map(PermissionEntry.class::cast)
+                    .anyMatch(p -> p.getPermission().equals(permission) && p.getEvent().getId().equals(((Event) targetDomainObject).getId()));
         }
 
         return false;
@@ -27,7 +27,7 @@ public class EventPermissionEvaluator implements PermissionEvaluator {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return userDetails.getAuthorities().stream()
-                .map(Permission.class::cast)
-                .anyMatch(p -> p.getValue().equals(permission) && p.getEvent().getId().equals(Long.valueOf(targetId.toString())));
+                .map(PermissionEntry.class::cast)
+                .anyMatch(p -> p.getPermission().equals(permission) && p.getEvent().getId().equals(Long.valueOf(targetId.toString())));
     }
 }
