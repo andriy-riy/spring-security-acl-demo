@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -24,7 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserRepository userRepository;
-    private final PermissionsService permissionsService;
+    private final EventPermissionsService eventPermissionsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,7 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new EventsPermissionsFilter(permissionsService, new AntPathRequestMatcher("/api/events/**", HttpMethod.PATCH.name())), AuthorizationFilter.class);
+                .addFilterBefore(new EventsPermissionsFilter(eventPermissionsService, new AntPathRequestMatcher("/api/events/**", HttpMethod.PATCH.name())), AuthorizationFilter.class);
 
         return http.build();
     }

@@ -15,7 +15,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class EventsPermissionsFilter extends OncePerRequestFilter {
 
-    private final PermissionsService permissionsService;
+    private final EventPermissionsService eventPermissionsService;
     private final RequestMatcher requestMatcher;
 
     @Override
@@ -26,7 +26,7 @@ public class EventsPermissionsFilter extends OncePerRequestFilter {
             String[] parts = request.getServletPath().split("/");
             Long id = Long.valueOf(parts[parts.length - 1]);
 
-            if (!permissionsService.hasPermissions(authentication, id)) {
+            if (!eventPermissionsService.hasPermissions(authentication, id)) {
                 response.setStatus(403);
                 return;
             }
