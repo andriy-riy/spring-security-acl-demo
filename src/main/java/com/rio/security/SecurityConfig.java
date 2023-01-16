@@ -1,5 +1,6 @@
 package com.rio.security;
 
+import com.rio.entity.Equipment;
 import com.rio.entity.Event;
 import com.rio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -75,10 +76,13 @@ public class SecurityConfig {
                 Event.class.getSimpleName(), new TargetedPermissionEvaluator() {
                     @Override
                     public Object getId(Object targetDomainObject) {
-                        if (targetDomainObject instanceof Event event) {
-                            return event.getId();
-                        }
-                        return null;
+                        return ((Event) targetDomainObject).getId();
+                    }
+                },
+                Equipment.class.getSimpleName(), new TargetedPermissionEvaluator() {
+                    @Override
+                    public Object getId(Object targetDomainObject) {
+                        return ((Equipment) targetDomainObject).getId();
                     }
                 }
         ));

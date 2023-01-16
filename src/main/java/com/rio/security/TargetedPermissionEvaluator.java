@@ -1,6 +1,6 @@
 package com.rio.security;
 
-import com.rio.entity.Permission;
+import com.rio.entity.PermissionEntry;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +15,10 @@ public abstract class TargetedPermissionEvaluator implements PermissionEvaluator
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             return userDetails.getAuthorities().stream()
-                    .map(Permission.class::cast)
-                    .filter(p -> targetDomainObject.getClass().getSimpleName().equals(p.getTargetDomainObject()))
+                    .map(PermissionEntry.class::cast)
+                    .filter(p -> targetDomainObject.getClass().getSimpleName().equals(p.getTargetDomainObjectType()))
                     .filter(p -> p.getTargetDomainObjectId() != null && Long.valueOf(p.getTargetDomainObjectId()).equals(getId(targetDomainObject)))
-                    .anyMatch(p -> p.getValue().equals(permission));
+                    .anyMatch(p -> p.getPermission().equals(permission));
         }
 
         return false;
@@ -29,10 +29,10 @@ public abstract class TargetedPermissionEvaluator implements PermissionEvaluator
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return userDetails.getAuthorities().stream()
-                .map(Permission.class::cast)
-                .filter(p -> targetType.equals(p.getTargetDomainObject()))
+                .map(PermissionEntry.class::cast)
+                .filter(p -> targetType.equals(p.getTargetDomainObjectType()))
                 .filter(p -> p.getTargetDomainObjectId() != null && Long.valueOf(p.getTargetDomainObjectId()).equals(targetId))
-                .anyMatch(p -> p.getValue().equals(permission));
+                .anyMatch(p -> p.getPermission().equals(permission));
     }
 
     public abstract Object getId(Object targetDomainObject);

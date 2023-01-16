@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -18,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .map(user -> new User(user.getEmail(), user.getPassword(), user.getPermissions()))
+                .map(user -> new User(user.getEmail(), user.getPassword(), user.getPermissionEntries()))
                 .orElseThrow(() -> new UsernameNotFoundException("User with username: '" + username + "' not found"));
     }
 }
