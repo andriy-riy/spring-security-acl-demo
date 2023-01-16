@@ -32,6 +32,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Equipment> equipments = new ArrayList<>();
+
     @OneToMany(mappedBy = "creator")
     private List<Event> createdEvents = new ArrayList<>();
 

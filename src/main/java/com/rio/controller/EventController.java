@@ -72,7 +72,6 @@ public class EventController {
         acl.insertAce(0, BasePermission.WRITE, sid, true);
         aclService.updateAcl(acl);
 
-
         return mapToEventDTO(saved);
     }
 
