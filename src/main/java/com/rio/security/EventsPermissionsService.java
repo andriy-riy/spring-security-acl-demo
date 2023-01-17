@@ -19,7 +19,7 @@ public class EventsPermissionsService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
 
-        return user.getPermissions().stream()
-                .anyMatch(p -> p.getValue().equals(permission) && p.getEvent().getId().equals(eventId));
+        return user.getPermissionEntries().stream()
+                .anyMatch(p -> p.getPermission().equals(permission) && p.getEvent().getId().equals(eventId));
     }
 }
