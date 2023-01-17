@@ -38,7 +38,7 @@ public class AclConfig {
 
     @Bean
     public JdbcMutableAclService aclService() {
-        JdbcMutableAclService jdbcMutableAclService = new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+        var jdbcMutableAclService = new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
 
         // For MySQL ONLY
         jdbcMutableAclService.setClassIdentityQuery("SELECT @@IDENTITY");
