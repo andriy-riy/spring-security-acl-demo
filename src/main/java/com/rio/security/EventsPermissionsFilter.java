@@ -20,18 +20,21 @@ public class EventsPermissionsFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (requestMatcher.matches(request)) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            String[] parts = request.getServletPath().split("/");
-            Long id = Long.valueOf(parts[parts.length - 1]);
+        String[] parts = request.getServletPath().split("/");
+        Long id = Long.valueOf(parts[parts.length - 1]);
 
-            if (!eventPermissionsService.hasPermissions(authentication, id)) {
-                response.setStatus(403);
-                return;
-            }
+        if (!eventPermissionsService.hasPermissions(authentication, id)) {
+            response.setStatus(403);
+            return;
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return !requestMatcher.matches(request);
     }
 }
