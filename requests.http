@@ -2,7 +2,7 @@
 POST http://localhost:8085/login
 Content-Type: application/x-www-form-urlencoded
 
-username=rio@gmail.com&password=rio
+username=vasily@gmail.com&password=vasily
 
 
 
@@ -10,7 +10,7 @@ username=rio@gmail.com&password=rio
 POST http://localhost:8085/login
 Content-Type: application/x-www-form-urlencoded
 
-username=milner@gmail.com&password=milner
+username=petro@gmail.com&password=petro
 
 
 
