@@ -20,8 +20,8 @@ public class UserInitializer {
 
     @EventListener(value = ApplicationStartedEvent.class)
     public void initUsers() {
-        createUserIfNotExists("rio@gmail.com", "rio", "Andriy", "Riy", LocalDate.of(1997, Month.SEPTEMBER, 6));
-        createUserIfNotExists("milner@gmail.com", "milner", "Oleg", "Melnyk", LocalDate.of(1998, Month.JANUARY, 19));
+        createUserIfNotExists("vasily@gmail.com", "vasily", "Vasily", "Vasily", LocalDate.of(1997, Month.SEPTEMBER, 6));
+        createUserIfNotExists("petro@gmail.com", "petro", "Petro", "Petro", LocalDate.of(1998, Month.JANUARY, 19));
     }
 
     private void createUserIfNotExists(String email, String password, String firstName, String lastName, LocalDate dateOfBirth) {
